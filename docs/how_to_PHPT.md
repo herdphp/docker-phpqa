@@ -24,11 +24,12 @@ PHPT have some conventions for file names
 - {ext-name}{number}.phpt (Tests for functions that belongs to an extension)
 - bug{bug-id}.phpt (Tests for bugs reported)
 
-- Create a new file to build you first PHPT and check in_array usage
+- Create a new file to build you first PHPT, for this tutorial we will write a test to check in_array usage
 
 ``` vim phpt/username/in_array_basic.phpt ```
 
-Content of the .phpt file
+##Content of the .phpt file
+Sample:
 ```php
 --TEST--
 Testing correct usage of in_array
@@ -73,7 +74,9 @@ EXPECTF for the error usage
 ``` ./phpqa phpt/username ```
 
 Console Output
+
 ```
+
 =====================================================================
 Running selected tests.
 PASS Testing correct usage of in_array [/usr/src/phpt/username/in_array_basic.phpt]
@@ -89,16 +92,16 @@ Time taken      :    0 seconds
 =====================================================================
 ```
 
-All good! Now let's test for an error.
+All good! Now let's test the function for an error.
 
-First, we need to change the --EXPECT-- tag to --EXPECTF--
-this is the correct block name to validate an error and the --TEST-- block description
+First, we need to change the **--EXPECT--** tag to **--EXPECTF--**
+this is the correct block name to validate an error and the **--TEST--** block description
 
 - Create a file to build a in_array error PHPT
 
 ``` vim phpt/username/in_array_error.phpt ```
 
-Change something that will generate an error output, in this example, change $os var to something that is not an array
+Change something that will generate an error output, in this example, change _$os_ var to something that is not an array
 
 Content of the .phpt file
 ```php
@@ -126,6 +129,7 @@ Mac Found
 
 You should get an console output like this
 ```
+
 =====================================================================
 Running selected tests.
 PASS Testing correct usage of in_array [/usr/src/phpt/username/in_array_basic.phpt]
@@ -151,7 +155,7 @@ Testing wrong usage of in_array [/usr/src/phpt/username/in_array_error.phpt]
 ## Now let's see the **log** files
 
 #### .EXP
-Result of the --EXPECT-- or --EXPECTF-- block of the phpt file
+Result of the **--EXPECT--** or **--EXPECTF--** block of the phpt file
 
 ```less phpt/username/in_array_error.exp```
 
@@ -161,7 +165,7 @@ Mac Found
 
 #### .OUT
 
-PHP output message
+PHP output message for the code that was executed
 
 ```less phpt/username/in_array_error.out```
 
@@ -171,7 +175,7 @@ Warning: in_array() expects parameter 2 to be array, string given in /usr/src/ph
 
 ### .PHP
 
---FILE-- Block code
+**--FILE--** Block code, the PHP code that was executed during the test
 
 ```less phpt/username/in_array_error.phpt```
 
@@ -188,7 +192,7 @@ if (in_array('Mac', $os)) {
 
 ### .SH
 
-Command used to run the test
+Command used to run the test to reproduce what the suit did
 
 ```less phpt/username/in_array_error.sh```
 
@@ -200,16 +204,16 @@ Command used to run the test
 ```
 
 ## Useful **logs**
-Those files can help you to see the exact output and what you need to change on your script
+Those files can help you to see the exact output and what you need to change on your test
 
-```less phpt/username/in_array_error.log```
+```less phpt/username/in_array_error.diff```
 
 ```
 001+ Warning: in_array() expects parameter 2 to be array, string given in /usr/src/phpt/username/in_array_error.phpt on line 4
 001- Mac Found
 ```
 
-```less phpt/username/in_array_error.diff```
+```less phpt/username/in_array_error.log```
 
 ```
 ---- EXPECTED OUTPUT
@@ -220,25 +224,25 @@ Warning: in_array() expects parameter 2 to be array, string given in /usr/src/ph
 ```
 
 ## Fixing .phpt file
-In this example, you need to change your --EXPECTF-- block to
+In this example, you need to change your **--EXPECTF--** block to
 ```
 Warning: in_array() expects parameter 2 to be array, string given in /usr/src/phpt/username/in_array_error.phpt on line 4
 ```
 
-But, in order to this test be able to run smoothly in any version and the changes easier, let's get rid of the static things like
+But, to make this test run smoothly in all version and to make it easier to be changed, let's get rid of the static things like
 numbers and types.
 
-Change 'string' to the wildcard '%s', this way the test will be good to validate no only string but the wrong parameter type.
+Change 'string' to the wildcard '%s', this way the test will be good to validate not only strings but also the wrong parameter type.
 ```
 Warning: in_array() expects parameter 2 to be array, %s given in /usr/src/phpt/username/in_array_error.phpt on line 4
 ```
 
-Let's change the script name and line just to make the output cleaner and changes easier
+Let's change the script name and line just to make the output cleaner and future changes easier
 ```
 Warning: in_array() expects parameter 2 to be array, %s given in %s on line %d
 ```
 
-The wilscards are:
+The wildcards are:
 - %s - string
 - %d - number
 - %c - single char
@@ -255,6 +259,7 @@ Run again
 If all works good, the log files will be deleted and you will get something like this
 
 ```
+
 =====================================================================
 Running selected tests.
 PASS Testing correct usage of in_array [/usr/src/phpt/username/in_array_basic.phpt]
@@ -270,3 +275,5 @@ Tests passed    :    2 (100.0%) (100.0%)
 Time taken      :    0 seconds
 =====================================================================
 ```
+
+Good testing!
