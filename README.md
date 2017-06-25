@@ -29,6 +29,10 @@ Build complete.
 Don't forget to run 'make test'.
 ````
 
+## How to .PHPT
+
+[Build your first test](docs/how_to_PHPT.md)
+
 ## PHP versions available
 
 * PHP 5.5, 5.6, 7.0 and 7.1 are fully available and supported;
@@ -68,7 +72,7 @@ scripts `docker-php-*` are also from the same [repository][docker-lib-php]. Thes
 
 ## LICENSE
 
-Copyright (c) 2017 Bruno Ricardo Siqueira, Joao Paulo Vendramini Martins 
+Copyright (c) 2017 Bruno Ricardo Siqueira, Joao Paulo Vendramini Martins
 
 This work is licensed under the terms of the [MIT license][license].
 
