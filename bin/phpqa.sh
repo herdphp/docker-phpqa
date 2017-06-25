@@ -13,14 +13,14 @@ _VERSION=$2
 if [ -z "$_VERSION" ]; then
     _VERSION=71
 elif [ "$_VERSION" = "all" ]; then
-    # `git rev-parse --show-toplevel`/bin/phpqa.sh $1 72 @see: https://bugs.php.net/bug.php?id=74723
-    `git rev-parse --show-toplevel`/bin/phpqa.sh $1 71
-    `git rev-parse --show-toplevel`/bin/phpqa.sh $1 70
-    `git rev-parse --show-toplevel`/bin/phpqa.sh $1 56
-    `git rev-parse --show-toplevel`/bin/phpqa.sh $1 55
+    # $(git rev-parse --show-toplevel)/bin/phpqa.sh $1 72 @see: https://bugs.php.net/bug.php?id=74723
+    $(git rev-parse --show-toplevel)/bin/phpqa.sh $1 71
+    $(git rev-parse --show-toplevel)/bin/phpqa.sh $1 70
+    $(git rev-parse --show-toplevel)/bin/phpqa.sh $1 56
+    $(git rev-parse --show-toplevel)/bin/phpqa.sh $1 55
     exit 0;
 fi
 
 docker run --rm -i -t \
-    -v `git rev-parse --show-toplevel`/phpt:/usr/src/phpt herdphp/phpqa:${_VERSION} \
+    -v $(git rev-parse --show-toplevel)/phpt:/usr/src/phpt herdphp/phpqa:${_VERSION} \
     make test TESTS=/usr/src/${_PHPT_FILE_PATH}
