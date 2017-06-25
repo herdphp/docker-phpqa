@@ -1,5 +1,7 @@
 # docker-phpqa
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/ee6f6e34d4b942c88ad17f3f3f4a36a2)](https://www.codacy.com/app/brunoric/docker-phpqa?utm_source=github.com&utm_medium=referral&utm_content=herdphp/docker-phpqa&utm_campaign=badger)
+
 Docker tools to easily create and run tests for the PHP-SRC. The intent of this library is to help any PHP developer to
 help PHP core developers by creating PHPT tests for the language engine and its core extensions.
 
