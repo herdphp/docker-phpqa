@@ -48,7 +48,7 @@ _PHP_MD5="_${_VERSION}_PHP_MD5"
 _CHECK_SIGNATURE="_${_VERSION}_CHECK_SIGNATURE"
 _CUSTOM_URL="_${_VERSION}_CUSTOM_URL"
 
-cd `git rev-parse --show-toplevel`
+cd $(git rev-parse --show-toplevel)
 docker build \
     --build-arg BUILD_PHP_VERSION="${!_PHP_VERSION}" \
     --build-arg BUILD_GPG_KEYS="${!_GPG_KEYS}" \
