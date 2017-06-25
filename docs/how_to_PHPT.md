@@ -17,12 +17,12 @@ First, let's set up the 'enviroment'.
 ``` mkdir phpt/username ```
 
 
-PHPT have some conventions for file name
-- {function-name}_basic.phpt
-- {function-name}_error.phpt
-- {function-name}_variation.phpt
-- {ext-name}{number}.phpt
-- bug{bug-id}.phpt
+PHPT have some conventions for file names
+- {function-name}_basic.phpt (Tests for the default behaviour of the function)
+- {function-name}\_error\_{number}.phpt (Tests for the errors of the function)
+- {function-name}\_variation\_{number}.phpt (Tests for non default behaviours of the functions)
+- {ext-name}{number}.phpt (Tests for functions that belongs to an extension)
+- bug{bug-id}.phpt (Tests for bugs reported)
 
 - Create a new file to build you first PHPT and check in_array usage
 
