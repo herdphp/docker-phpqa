@@ -2,11 +2,13 @@
 
 _PHPT_FILE_PATH=$1
 if [ -z "$_PHPT_FILE_PATH" ]; then
-    echo "You need to provide a phpt file to be tests."
-    echo "usage:"
-    echo "./phpqa path/to/test.phpt <version>"
-    echo "available versions: 56, 70, 71 and all (run all available versions)"
-    exit 1;
+    printf "docker-phpqa 0.0.1\n\n"
+    printf "Usage:\n"
+    printf "\t./phpqa <path/to/test.phpt|suite> [<version>]\n\n"
+    printf "Notes:\n"
+    printf "\t- you need to provide a phpt file to be tested or pass \`suite\` as first parameter to run the full test suite.\n"
+    printf "\t- the versions supported are 55, 56, 70, 71 or all (run all available versions).\n"
+    exit 1
 fi
 
 _VERSION=$2
@@ -18,8 +20,13 @@ elif [ "$_VERSION" = "all" ]; then
     $(git rev-parse --show-toplevel)/bin/phpqa.sh $1 70
     $(git rev-parse --show-toplevel)/bin/phpqa.sh $1 56
     $(git rev-parse --show-toplevel)/bin/phpqa.sh $1 55
-    exit 0;
+    exit 0
 fi
+
+if [ "$_PHPT_FILE_PATH" = "suite" ]; then
+    docker run --rm -i -t herdphp/phpqa:${_VERSION} make test
+    exit 0
+fi;
 
 docker run --rm -i -t \
     -v $(git rev-parse --show-toplevel)/phpt:/usr/src/phpt herdphp/phpqa:${_VERSION} \
