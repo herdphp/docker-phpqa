@@ -101,7 +101,7 @@ this is the correct block name to validate an error and the --TEST-- block descr
 Change something that will generate an error output, in this example, change $os var to something that is not an array
 
 Content of the .phpt file
-```
+```php
 --TEST--
 Testing wrong usage of in_array
 --CREDITS--
@@ -122,14 +122,14 @@ Mac Found
 
 - Run the test to see the output
 
-```./phpqa phpt/ivan ```
+```./phpqa phpt/username ```
 
 You should get an console output like this
 ```
 =====================================================================
 Running selected tests.
 PASS Testing correct usage of in_array [/usr/src/phpt/ivan/in_array_basic.phpt]
-FAIL Testing correct usage of in_array [/usr/src/phpt/ivan/in_array_error.phpt]
+FAIL Testing wrong usage of in_array [/usr/src/phpt/ivan/in_array_error.phpt]
 =====================================================================
 Number of tests :    2                 2
 Tests skipped   :    0 (  0.0%) --------
@@ -153,7 +153,7 @@ Testing wrong usage of in_array [/usr/src/phpt/ivan/in_array_error.phpt]
 #### .EXP
 Result of the --EXPECT-- or --EXPECTF-- block of the phpt file
 
-```less phpt/ivan/in_array_error.exp```
+```less phpt/username/in_array_error.exp```
 
 ```
 Mac Found
@@ -163,7 +163,7 @@ Mac Found
 
 PHP output message
 
-```less phpt/ivan/in_array_error.out```
+```less phpt/username/in_array_error.out```
 
 ```
 Warning: in_array() expects parameter 2 to be array, string given in /usr/src/phpt/ivan/in_array_error.phpt on line 4
@@ -173,7 +173,7 @@ Warning: in_array() expects parameter 2 to be array, string given in /usr/src/ph
 
 --FILE-- Block code
 
-```less phpt/ivan/in_array_error.phpt```
+```less phpt/username/in_array_error.phpt```
 
 ```php
 <?php
@@ -190,7 +190,7 @@ if (in_array('Mac', $os)) {
 
 Command used to run the test
 
-```less phpt/ivan/in_array_error.sh```
+```less phpt/username/in_array_error.sh```
 
 ```
 #!/bin/sh
@@ -202,12 +202,14 @@ Command used to run the test
 ## Useful **logs**
 Those files can help you to see the exact output and what you need to change on your script
 
-```less phpt/ivan/in_array_error.log```
+```less phpt/username/in_array_error.log```
+
 ```
 001+ Warning: in_array() expects parameter 2 to be array, string given in /usr/src/phpt/ivan/in_array_error.phpt on line 4
 001- Mac Found
 ```
-```less phpt/ivan/in_array_error.diff```
+
+```less phpt/username/in_array_error.diff```
 
 ```
 ---- EXPECTED OUTPUT
@@ -256,7 +258,7 @@ If all works good, the log files will be deleted and you will get something like
 =====================================================================
 Running selected tests.
 PASS Testing correct usage of in_array [/usr/src/phpt/ivan/in_array_basic.phpt]
-PASS Testing correct usage of in_array [/usr/src/phpt/ivan/in_array_error.phpt]
+PASS Testing wrong usage of in_array [/usr/src/phpt/ivan/in_array_error.phpt]
 =====================================================================
 Number of tests :    2                 2
 Tests skipped   :    0 (  0.0%) --------
