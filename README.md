@@ -12,7 +12,7 @@ create PHPT tests for the language engine and its core extensions.
 2. Run our installer:
 
 ````bash
-curl -s https://raw.githubusercontent.com/herdphp/docker-phpqa/global-app/bin/installer.sh | bash
+curl -s https://raw.githubusercontent.com/herdphp/docker-phpqa/master/bin/installer.sh | bash
 ````
 
 Start PHPTesting!!!
