@@ -3,30 +3,40 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/ee6f6e34d4b942c88ad17f3f3f4a36a2)](https://www.codacy.com/app/brunoric/docker-phpqa?utm_source=github.com&utm_medium=referral&utm_content=herdphp/docker-phpqa&utm_campaign=badger)
 
 Docker tools to easily create and run tests for the PHP-SRC. The intent of this library is to help any PHP developer to
-help PHP core developers by creating PHPT tests for the language engine and its core extensions.
+create PHPT tests for the language engine and its core extensions.
 
 ## How to get it?
 
-All you need to start using it is cloning the repository and have [docker](https://www.docker.com/community-edition) installed on your machine.
+1. You will **need** to have [docker](https://www.docker.com/community-edition) installed on your machine.
+
+2. Run our installer:
+
+````bash
+curl -s https://raw.githubusercontent.com/herdphp/docker-phpqa/global-app/bin/installer.sh | bash
+````
+
+Start PHPTesting!!!
 
 ## How to use it?
 
-1. Write a PHPT test and add it to the `phpt` folder;
-2. Run the `./phpqa` command passing as arguments the filename and the PHP version to run the test (71, 70, 56, 55):
+1. Write a PHPT test in **any folder**;
+2. Run the `phpqa` command passing as arguments the filepath (relative or full) and the PHP version to run the test (71, 70, 56, 55):
+
 ````bash
 # without a version the test will run agains PHP 7.1 codebase
-./phpqa phpt/examples/closure_061.phpt
+phpqa phpt/examples/closure_061.phpt
 # with a version the test will run against the specified version
-./phpqa phpt/examples/closure_061.phpt 56
+phpqa phpt/examples/closure_061.phpt 56
 # if you want you can pass `all` as second argument and the test will run against all versions
-./phpqa phpt/examples/closure_061.phpt all
+phpqa phpt/examples/closure_061.phpt all
 ````
 
 ![Example execution](http://i.imgur.com/xIXGOeZ.gif)
 
 
-Note that when running the test suit there will be an output message reminding you to run `make test`. THis is a standard message and you don't need to run it.
-````bash
+Note that when running the test suit there will be an output message reminding you to run `make test`. This is a standard message and you don't need to run it.
+
+````
 Build complete.
 Don't forget to run 'make test'.
 ````
