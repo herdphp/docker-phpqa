@@ -5,7 +5,7 @@ _PHPT_FILE_PATH=$1;
 if [ -z "$_PHPT_FILE_PATH" ]; then
     printf "docker-phpqa 0.0.1\n\n";
     printf "Usage:\n";
-    printf "\t./phpqa <path/to/test.phpt|suite> [<version>]\n\n";
+    printf "\tphpqa <path/to/test.phpt|suite> [<version>]\n\n";
     printf "Notes:\n";
     printf "\t- you need to provide a phpt file to be tested or pass \`suite\` as first parameter to run the full test suite.\n";
     printf "\t- the versions supported are 55, 56, 70, 71 or all (run all available versions).\n";

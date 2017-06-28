@@ -71,7 +71,7 @@ EXPECTF for the error usage
 
 ## Now, let's roll!
 
-``` ./phpqa phpt/username ```
+``` phpqa phpt/username ```
 
 Console Output
 
@@ -125,7 +125,7 @@ Mac Found
 
 - Run the test to see the output
 
-```./phpqa phpt/username ```
+```phpqa phpt/username ```
 
 You should get an console output like this
 ```
@@ -254,7 +254,7 @@ The wildcards are:
 
 Run again
 
-```./phpqa phpt/username```
+```phpqa phpt/username```
 
 If all works good, the log files will be deleted and you will get something like this
 
