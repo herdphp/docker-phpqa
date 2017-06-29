@@ -23,7 +23,7 @@ Start PHPTesting!!!
 2. Run the `phpqa` command passing as arguments the filepath (relative or full) and the PHP version to run the test (71, 70, 56, 55):
 
 ````bash
-# without a version the test will run agains PHP 7.1 codebase
+# without a version the test will run against PHP 7.1 codebase
 phpqa phpt/examples/closure_061.phpt
 # with a version the test will run against the specified version
 phpqa phpt/examples/closure_061.phpt 56
