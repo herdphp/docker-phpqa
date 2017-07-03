@@ -43,7 +43,7 @@ Don't forget to run 'make test'.
 
 ## How to .PHPT
 
-[Build your first test](docs/how_to_PHPT.md)
+[Build your first test](https://github.com/herdphp/docker-phpqa/wiki/How-To-PHPT)
 
 ## PHP versions available
 
