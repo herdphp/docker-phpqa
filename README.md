@@ -47,9 +47,7 @@ Don't forget to run 'make test'.
 
 ## PHP versions available
 
-* PHP 5.5, 5.6, 7.0 and 7.1 are fully available and supported;
-* PHP 7.2 is about to work but since 7.2.0alpha2 is unable to be built we are still waiting [the related PEAR bug](https://bugs.php.net/bug.php?id=74723)
-to be fixed.
+PHP 5.5, 5.6, 7.0, 7.1 and 7.2 (Alpha3) are fully available and supported;
 
 ## Contributing
 
@@ -67,13 +65,6 @@ This repository intent to facilitate participation and contribution in the PHP T
 * [Sammy's php|tek 2017 talk](https://speakerdeck.com/sammyk/writing-tests-for-php-source-php-tek-2017)
 * [Discussion at PHP User Groups list](https://groups.google.com/a/phpcommunity.org/forum/?utm_medium=email&utm_source=footer#!topic/testfest/-C2pcxod65g)
 * [Testing with .php files on PHP Internals Book](https://www.phpinternalsbook.com/tests/introduction.html)
-
-# TODO
-
-* ~~Add more PHP versions (PHP 7.2alpha and PHP 5.5 at least) [Issue #5](https://github.com/herdphp/docker-phpqa/issues/5);~~
-* Put some effort to shrink the images, either using the Alpine version of them or any other strategy [Issue #6](https://github.com/herdphp/docker-phpqa/issues/6);
-* Integrate this repository with CircleCi in order to have the docker images builds tested [Issue #7](https://github.com/herdphp/docker-phpqa/issues/7);
-* Improve documentation, adding a session about how to write PHPT [Issue #8](https://github.com/herdphp/docker-phpqa/issues/8);
 
 ## Credits
 
