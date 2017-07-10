@@ -20,7 +20,7 @@ Start PHPTesting!!!
 ## How to use it?
 
 1. Write a PHPT test in **any folder**;
-2. Run the `phpqa` command passing as arguments the filepath (relative or full) and the PHP version to run the test (71, 70, 56, 55):
+2. Run the `phpqa` command passing as arguments the filepath (relative or full) and the PHP version to run the test (72, 71, 70, 56, 55):
 
 ````bash
 # without a version the test will run against PHP 7.1 codebase
