@@ -2,8 +2,8 @@
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/ee6f6e34d4b942c88ad17f3f3f4a36a2)](https://www.codacy.com/app/brunoric/docker-phpqa?utm_source=github.com&utm_medium=referral&utm_content=herdphp/docker-phpqa&utm_campaign=badger)
 
-Docker tools to easily create and run tests for the PHP-SRC. The intent of this library is to help any PHP developer to
-create PHPT tests for the language engine and its core extensions.
+Docker tools to easily create and run tests for the [PHP-SRC][php-src]. The intent of this library is to help any PHP 
+developer to create PHPT tests for the language engine and its core extensions.
 
 ## How to get it?
 
@@ -19,27 +19,66 @@ Start PHPTesting!!!
 
 ## How to use it?
 
+### To generate new PHPT test files
+
+The [generate-phpt][generate-phpt] tool wrapped by `docker-phpqa` is a developer tool 
+[that lives inside of PHP-SRC repository][generate-phpt]. It' usage is very simple and the intent is to bootstrap PHPT
+creation.
+
+````
+Usage:
+./phpqa generate [PHPT_DIR] -f <function_name> |-c <class_name> -m <method_name> -b|e|v [-s skipif:ini:clean:done] [-k win|notwin|64b|not64b] [-x ext]
+
+Where:
+-f function_name ................. Name of PHP function, eg cos
+-c class name .....................Name of class, eg DOMDocument
+-m method name ....................Name of method, eg createAttribute
+-b ............................... Generate basic tests
+-e ............................... Generate error tests
+-v ............................... Generate variation tests
+-s sections....................... Create optional sections, colon separated list
+-k skipif key..................... Skipif option, only used if -s skipif is used.
+-x extension.......................Skipif option, specify extension to check for
+-h ............................... Print this message
+````
+
+If you want to see the help you can just use:
+
+````bash
+phpqa generate -h
+````
+
+If you want to create a *basic* PHPT test for the [`ucfirst` function][php-function-ucfirst]:
+
+````bash
+phpqa generate -f ucfirst -b
+````
+
+This will create a template PHPT file for the function ucfirst inside of your PHPT default folder. If you want to choose
+the PHPT directory where the files are generated you can pass if as the first argument of the generate command:
+
+````bash
+phpqa generate /path/to/phpt/dir -f ucfirst -b
+````
+
+### To run your created tests against multiple PHP versions
+
 1. Write a PHPT test in **any folder**;
 2. Run the `phpqa` command passing as arguments the filepath (relative or full) and the PHP version to run the test (72, 71, 70, 56, 55):
 
 ````bash
 # without a version the test will run against PHP 7.1 codebase
-phpqa phpt/examples/closure_061.phpt
+phpqa run phpt/examples/closure_061.phpt
 # with a version the test will run against the specified version
-phpqa phpt/examples/closure_061.phpt 56
+phpqa run phpt/examples/closure_061.phpt 56
 # if you want you can pass `all` as second argument and the test will run against all versions
-phpqa phpt/examples/closure_061.phpt all
+phpqa run phpt/examples/closure_061.phpt all
 ````
 
 ![Example execution](http://i.imgur.com/xIXGOeZ.gif)
 
 
 Note that when running the test suit there will be an output message reminding you to run `make test`. This is a standard message and you don't need to run it.
-
-````
-Build complete.
-Don't forget to run 'make test'.
-````
 
 ## How to .PHPT
 
@@ -85,3 +124,5 @@ This work is licensed under the terms of the [MIT license][license].
 [docker-lib-php]: https://github.com/docker-library/php
 [docker-lib-php-license]: https://github.com/docker-library/php/blob/master/LICENSE
 [license]: https://github.com/herdphp/docker-phpqa/blob/master/LICENSE
+[generate-phpt]: https://github.com/php/php-src/tree/master/scripts/dev/generate-phpt
+[php-function-ucfirst]: http://php.net/manual/en/function.ucfirst.php
