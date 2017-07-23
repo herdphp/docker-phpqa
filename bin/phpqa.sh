@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+_PHPQA_PHP_VERSION=71;
+
 function displayError()
 {
     local exitError=$1;
@@ -34,7 +36,7 @@ function parseRunArgs()
     fi
 
     if [ -z "${_RUN_VERSION}" ]; then
-        _RUN_VERSION=71; # default version is the stable one
+        _RUN_VERSION=${_PHPQA_PHP_VERSION};
     elif [ "${_RUN_VERSION}" != "72" ] && [ "${_RUN_VERSION}" != "71" ] && [ "${_RUN_VERSION}" != "70" ] && [ "${_RUN_VERSION}" != "56" ]; then
         displayHelp "The versions supported are 55, 56, 70, 71, 72 or all to run in all available versions.";
     fi
@@ -61,10 +63,10 @@ function executeRunSuite()
     exit 0;
 }
 
-function fixPath()
+function fixRunPath()
 {
     _RUN_FILENAME=${_RUN_FILE_PATH##*/};
-    if [[ ! "$_RUN_FILE_PATH" = /* ]]; then
+    if [[ ! "${_RUN_FILE_PATH}" = /* ]]; then
         _RUN_FILE_PATH="$(pwd)/${_RUN_FILE_PATH}";
     fi
 }
@@ -89,18 +91,46 @@ function executeRun()
         exit 0;
     fi
 
-    if [ "$_RUN_FILE" = "suite" ]; then
+    if [ "${_RUN_FILE_PATH}" = "suite" ]; then
         executeRunSuite;
     fi
 
-    fixPath;
+    fixRunPath;
     singleTest;
 }
 
-# @todo add generation logic
+function parseGenerateArgs()
+{
+    local generateOptions="-f -c -m -b -e -v -s -k -x -h";
+    _GENERATE_DIR=$1;
+    _GENERATE_VERSION=${_PHPQA_PHP_VERSION};
+
+    if [ -z "${_GENERATE_DIR}" ] || [[ ${generateOptions} =~ (^|[[:space:]])${_GENERATE_DIR}($|[[:space:]]) ]]; then
+        _GENERATE_DIR="$(git rev-parse --show-toplevel)/phpt";
+        _GENERATE_ARGS=$@;
+    fi
+
+    if [ ! -d "${_GENERATE_DIR}" ]; then
+        displayHelp "Directory ${_GENERATE_DIR} does not exist.";
+    fi
+
+    if [ -z "${_GENERATE_ARGS}" ]; then
+        shift;
+        _GENERATE_ARGS=$@;
+    fi
+}
+
+function fixGenerateDir()
+{
+    if [[ ! "${_GENERATE_DIR}" = /* ]]; then
+        _GENERATE_DIR="$(pwd)/${_GENERATE_DIR}";
+    fi
+}
 function executeGenerate()
 {
-    echo "TODO";
+    parseGenerateArgs ${_COMMAND_ARGS};
+    fixGenerateDir;
+    echo "docker run --rm -i -t -v ${_GENERATE_DIR}:/usr/src/phpt herdphp/phpqa:72 php scripts/dev/generate-phpt.phar" ${_GENERATE_ARGS};
 }
 
 function executeCommand()
