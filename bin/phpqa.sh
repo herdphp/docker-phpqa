@@ -149,7 +149,7 @@ function executeGenerate()
 {
     parseGenerateArgs ${_COMMAND_ARGS};
     fixGenerateDir;
-    docker run --rm -i -t -v ${_GENERATE_DIR}:/usr/src/phpt herdphp/phpqa:72 \
+    docker run --rm -i -t -v ${_GENERATE_DIR}:/usr/src/phpt herdphp/phpqa:${_GENERATE_VERSION} \
         php scripts/dev/generate-phpt.phar ${_GENERATE_ARGS} | sed "s/php generate-phpt.php /.\/phpqa/";
 }
 
