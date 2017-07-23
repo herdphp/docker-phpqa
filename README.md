@@ -75,11 +75,6 @@ phpqa run phpt/examples/closure_061.phpt 56
 phpqa run phpt/examples/closure_061.phpt all
 ````
 
-![Example execution](http://i.imgur.com/xIXGOeZ.gif)
-
-
-Note that when running the test suit there will be an output message reminding you to run `make test`. This is a standard message and you don't need to run it.
-
 ## How to .PHPT
 
 [Build your first test](https://github.com/herdphp/docker-phpqa/wiki/How-To-PHPT)
