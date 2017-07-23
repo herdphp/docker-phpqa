@@ -75,7 +75,8 @@ function singleTest()
 {
     docker run --rm -i -t \
         -v ${_RUN_FILE_PATH}:/usr/src/phpt/${_RUN_FILENAME} herdphp/phpqa:${_RUN_VERSION} \
-        make test TESTS=/usr/src/phpt/${_RUN_FILENAME};
+        make test TESTS=/usr/src/phpt/${_RUN_FILENAME} \
+        | sed -e "s/Build complete./Test build successfully./" -e "s/Don't forget to run 'make test'./=\)/";
 }
 
 function executeRun()
@@ -130,7 +131,8 @@ function executeGenerate()
 {
     parseGenerateArgs ${_COMMAND_ARGS};
     fixGenerateDir;
-    echo "docker run --rm -i -t -v ${_GENERATE_DIR}:/usr/src/phpt herdphp/phpqa:72 php scripts/dev/generate-phpt.phar" ${_GENERATE_ARGS};
+    docker run --rm -i -t -v ${_GENERATE_DIR}:/usr/src/phpt herdphp/phpqa:72 \
+        php scripts/dev/generate-phpt.phar ${_GENERATE_ARGS} | sed "s/php generate-phpt.php /.\/phpqa/";
 }
 
 function executeCommand()
