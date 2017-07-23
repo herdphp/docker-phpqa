@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+_YELLOW='\033[1;33m' # yellow color
+_GREEN='\033[0;32m' # green color
+_NC='\033[0m' # no color
+
 _PHPQA_PHP_VERSION=71;
 
 function displayError()
@@ -19,9 +23,22 @@ function displayHelp()
         displayError "${exitError}";
     fi
 
-    printf "docker-phpqa 0.0.1\n\n";
-    printf "Usage:\n";
-    printf "\tphpqa <path/to/test.phpt|suite> [<version>]\n\n";
+    printf "${_GREEN}docker-phpqa - Docker tools to easily create and run tests for the PHP-SRC${_NC}\n";
+    printf "${_YELLOW}GENERATE usage${_NC}:
+    ./phpqa generate [PHPT_DIR] -f <function_name> |-c <class_name> -m <method_name> -b|e|v [-s skipif:ini:clean:done] [-k win|notwin|64b|not64b] [-x ext]
+    Where:
+    -f function_name ................. Name of PHP function, eg cos
+    -c class name .....................Name of class, eg DOMDocument
+    -m method name ....................Name of method, eg createAttribute
+    -b ............................... Generate basic tests
+    -e ............................... Generate error tests
+    -v ............................... Generate variation tests
+    -s sections....................... Create optional sections, colon separated list
+    -k skipif key..................... Skipif option, only used if -s skipif is used.
+    -x extension.......................Skipif option, specify extension to check for
+    -h ............................... Print this message\n";
+    printf "${_YELLOW}RUN usage${_NC}:
+    phpqa <path/to/test.phpt|suite> [<version>]\n\n";
 
     exit ${exitCode};
 }
@@ -45,7 +62,7 @@ function parseRunArgs()
 function parseArgs()
 {
     _COMMAND=$1;
-    if [ -z "${_COMMAND}" ] || ( [ "${_COMMAND}" != "run" ] && [ "${_COMMAND}" != "generate" ] ); then
+    if [ -z "${_COMMAND}" ] || ( [ "${_COMMAND}" != "run" ] && [ "${_COMMAND}" != "generate" ] && [ "${_COMMAND}" != "help" ] ); then
         displayHelp "Unrecognized command ${_COMMAND}.";
     fi
 
