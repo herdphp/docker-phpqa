@@ -17,7 +17,7 @@ _VERSION=$2
 if [ -z "$_VERSION" ]; then
     _VERSION=71;
 elif [ "$_VERSION" = "all" ]; then
-    # $(git rev-parse --show-toplevel)/bin/phpqa.sh $1 72; @see: https://bugs.php.net/bug.php?id=74723
+    $(git rev-parse --show-toplevel)/bin/phpqa.sh ${_PHPT_FILE_PATH} 72;
     $(git rev-parse --show-toplevel)/bin/phpqa.sh ${_PHPT_FILE_PATH} 71;
     $(git rev-parse --show-toplevel)/bin/phpqa.sh ${_PHPT_FILE_PATH} 70;
     $(git rev-parse --show-toplevel)/bin/phpqa.sh ${_PHPT_FILE_PATH} 56;
