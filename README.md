@@ -22,12 +22,12 @@ Start PHPTesting!!!
 ### To generate new PHPT test files
 
 The [generate-phpt][generate-phpt] tool wrapped by `docker-phpqa` is a developer tool 
-[that lives inside of PHP-SRC repository][generate-phpt]. It' usage is very simple and the intent is to bootstrap PHPT
+[that lives inside of PHP-SRC repository][generate-phpt]. Its usage is very simple and the intent is to bootstrap PHPT
 creation.
 
 ````
 Usage:
-./phpqa generate [PHPT_DIR] -f <function_name> |-c <class_name> -m <method_name> -b|e|v [-s skipif:ini:clean:done] [-k win|notwin|64b|not64b] [-x ext]
+phpqa generate [PHPT_DIR] -f <function_name> |-c <class_name> -m <method_name> -b|e|v [-s skipif:ini:clean:done] [-k win|notwin|64b|not64b] [-x ext]
 
 Where:
 -f function_name ................. Name of PHP function, eg cos
