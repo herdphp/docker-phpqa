@@ -25,7 +25,7 @@ function displayHelp()
 
     printf "${_GREEN}docker-phpqa - Docker tools to easily create and run tests for the PHP-SRC${_NC}\n";
     printf "${_YELLOW}GENERATE usage${_NC}:
-    ./phpqa generate [PHPT_DIR] -f <function_name> |-c <class_name> -m <method_name> -b|e|v [-s skipif:ini:clean:done] [-k win|notwin|64b|not64b] [-x ext]
+    phpqa generate [PHPT_DIR] -f <function_name> |-c <class_name> -m <method_name> -b|e|v [-s skipif:ini:clean:done] [-k win|notwin|64b|not64b] [-x ext]
     Where:
     -f function_name ................. Name of PHP function, eg cos
     -c class name .................... Name of class, eg DOMDocument
@@ -150,7 +150,7 @@ function executeGenerate()
     parseGenerateArgs ${_COMMAND_ARGS};
     fixGenerateDir;
     docker run --rm -i -t -w /usr/src/phpt -v ${_GENERATE_DIR}:/usr/src/phpt herdphp/phpqa:${_GENERATE_VERSION} \
-        php /usr/src/php/scripts/dev/generate-phpt.phar ${_GENERATE_ARGS} | sed "s/php generate-phpt.php /.\/phpqa/";
+        php /usr/src/php/scripts/dev/generate-phpt.phar ${_GENERATE_ARGS} | sed "s/php generate-phpt.php /phpqa/";
 }
 
 function executeCommand()
