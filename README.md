@@ -99,6 +99,7 @@ This repository intent to facilitate participation and contribution in the PHP T
 * [Sammy's php|tek 2017 talk](https://speakerdeck.com/sammyk/writing-tests-for-php-source-php-tek-2017)
 * [Discussion at PHP User Groups list](https://groups.google.com/a/phpcommunity.org/forum/?utm_medium=email&utm_source=footer#!topic/testfest/-C2pcxod65g)
 * [Testing with .php files on PHP Internals Book](https://www.phpinternalsbook.com/tests/introduction.html)
+* [Playlist in how compile PHP and start writing tests - by Sammy Kaye](https://www.youtube.com/playlist?list=PLN7yVcqYnDlUvWDG362C67-sL1PBpm6Yy)
 
 ## Credits
 
