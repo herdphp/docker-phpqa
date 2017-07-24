@@ -1,43 +1,171 @@
 #!/usr/bin/env bash
 
-# Grabs filepath argument
-_PHPT_FILE_PATH=$1;
-if [ -z "$_PHPT_FILE_PATH" ]; then
-    printf "docker-phpqa 0.0.1\n\n";
-    printf "Usage:\n";
-    printf "\tphpqa <path/to/test.phpt|suite> [<version>]\n\n";
-    printf "Notes:\n";
-    printf "\t- you need to provide a phpt file to be tested or pass \`suite\` as first parameter to run the full test suite.\n";
-    printf "\t- the versions supported are 55, 56, 70, 71 or all (run all available versions).\n";
-    exit 1;
-fi
+_YELLOW='\033[1;33m' # yellow color
+_GREEN='\033[0;32m' # green color
+_NC='\033[0m' # no color
 
-# Grabs version argument
-_VERSION=$2
-if [ -z "$_VERSION" ]; then
-    _VERSION=71;
-elif [ "$_VERSION" = "all" ]; then
-    $(git rev-parse --show-toplevel)/bin/phpqa.sh ${_PHPT_FILE_PATH} 72;
-    $(git rev-parse --show-toplevel)/bin/phpqa.sh ${_PHPT_FILE_PATH} 71;
-    $(git rev-parse --show-toplevel)/bin/phpqa.sh ${_PHPT_FILE_PATH} 70;
-    $(git rev-parse --show-toplevel)/bin/phpqa.sh ${_PHPT_FILE_PATH} 56;
-    $(git rev-parse --show-toplevel)/bin/phpqa.sh ${_PHPT_FILE_PATH} 55;
+_PHPQA_PHP_VERSION=71;
+
+function displayError()
+{
+    local exitError=$1;
+    printf "Error: ${exitError}\n\n";
+}
+
+function displayHelp()
+{
+    local exitError=$1;
+    if [ -z "${exitError}" ]; then
+        exitCode=0;
+    fi
+
+    if [ "${exitCode}" != "0" ]; then
+        displayError "${exitError}";
+    fi
+
+    printf "${_GREEN}docker-phpqa - Docker tools to easily create and run tests for the PHP-SRC${_NC}\n";
+    printf "${_YELLOW}GENERATE usage${_NC}:
+    ./phpqa generate [PHPT_DIR] -f <function_name> |-c <class_name> -m <method_name> -b|e|v [-s skipif:ini:clean:done] [-k win|notwin|64b|not64b] [-x ext]
+    Where:
+    -f function_name ................. Name of PHP function, eg cos
+    -c class name .................... Name of class, eg DOMDocument
+    -m method name ................... Name of method, eg createAttribute
+    -b ............................... Generate basic tests
+    -e ............................... Generate error tests
+    -v ............................... Generate variation tests
+    -s sections....................... Create optional sections, colon separated list
+    -k skipif key..................... Skipif option, only used if -s skipif is used.
+    -x extension...................... Skipif option, specify extension to check for
+    -h ............................... Print this message\n";
+    printf "${_YELLOW}RUN usage${_NC}:
+    phpqa <path/to/test.phpt|suite> [<version>]\n\n";
+
+    exit ${exitCode};
+}
+
+function parseRunArgs()
+{
+    _RUN_FILE_PATH=$1
+    _RUN_VERSION=$2;
+
+    if [ -z "${_RUN_FILE_PATH}" ] || [ ! -f "${_RUN_FILE_PATH}" ]; then
+        displayHelp "You need to provide a phpt file to be tested or pass \`suite\` as first parameter to run the full test suite.";
+    fi
+
+    if [ -z "${_RUN_VERSION}" ]; then
+        _RUN_VERSION=${_PHPQA_PHP_VERSION};
+    elif [ "${_RUN_VERSION}" != "72" ] && [ "${_RUN_VERSION}" != "71" ] && [ "${_RUN_VERSION}" != "70" ] && [ "${_RUN_VERSION}" != "56" ] && [ "${_RUN_VERSION}" != "55" ]; then
+        displayHelp "The versions supported are 55, 56, 70, 71, 72 or all to run in all available versions.";
+    fi
+}
+
+function parseArgs()
+{
+    _COMMAND=$1;
+    if [ -z "${_COMMAND}" ] || ( [ "${_COMMAND}" != "run" ] && [ "${_COMMAND}" != "generate" ] && [ "${_COMMAND}" != "help" ] ); then
+        displayHelp "Unrecognized command ${_COMMAND}.";
+    fi
+
+    if [ "${_COMMAND}" = "help" ]; then
+        displayHelp;
+    fi
+
+    shift;
+    _COMMAND_ARGS=$@;
+}
+
+function executeRunSuite()
+{
+    docker run --rm -i -t herdphp/phpqa:${_RUN_VERSION} make test;
     exit 0;
-fi
+}
 
-# Running full suite
-if [ "$_PHPT_FILE_PATH" = "suite" ]; then
-    docker run --rm -i -t herdphp/phpqa:${_VERSION} make test;
-    exit 0;
-fi
+function fixRunPath()
+{
+    _RUN_FILENAME=${_RUN_FILE_PATH##*/};
+    if [[ ! "${_RUN_FILE_PATH}" = /* ]]; then
+        _RUN_FILE_PATH="$(pwd)/${_RUN_FILE_PATH}";
+    fi
+}
 
-# Fixing relative paths
-_PHPT_FILENAME=${_PHPT_FILE_PATH##*/};
-if [[ ! "$_PHPT_FILE_PATH" = /* ]]; then
-    _PHPT_FILE_PATH="$(pwd)/${_PHPT_FILE_PATH}";
-fi
+function singleTest()
+{
+    docker run --rm -i -t \
+        -v ${_RUN_FILE_PATH}:/usr/src/phpt/${_RUN_FILENAME} herdphp/phpqa:${_RUN_VERSION} \
+        make test TESTS=/usr/src/phpt/${_RUN_FILENAME} \
+        | sed -e "s/Build complete./Test build successfully./" -e "s/Don't forget to run 'make test'./=\)/";
+}
 
-# Running single test
-docker run --rm -i -t \
-    -v ${_PHPT_FILE_PATH}:/usr/src/phpt/${_PHPT_FILENAME} herdphp/phpqa:${_VERSION} \
-    make test TESTS=/usr/src/phpt/${_PHPT_FILENAME};
+function executeRun()
+{
+    parseRunArgs ${_COMMAND_ARGS};
+
+    if [ "${_RUN_VERSION}" = "all" ]; then
+        $(git rev-parse --show-toplevel)/bin/phpqa.sh ${_RUN_FILENAME} 72;
+        $(git rev-parse --show-toplevel)/bin/phpqa.sh ${_RUN_FILENAME} 71;
+        $(git rev-parse --show-toplevel)/bin/phpqa.sh ${_RUN_FILENAME} 70;
+        $(git rev-parse --show-toplevel)/bin/phpqa.sh ${_RUN_FILENAME} 56;
+        $(git rev-parse --show-toplevel)/bin/phpqa.sh ${_RUN_FILENAME} 55;
+        exit 0;
+    fi
+
+    if [ "${_RUN_FILE_PATH}" = "suite" ]; then
+        executeRunSuite;
+    fi
+
+    fixRunPath;
+    singleTest;
+}
+
+function parseGenerateArgs()
+{
+    local generateOptions="-f -c -m -b -e -v -s -k -x -h";
+    _GENERATE_DIR=$1;
+    _GENERATE_VERSION=${_PHPQA_PHP_VERSION};
+
+    if [ -z "${_GENERATE_DIR}" ] || [[ ${generateOptions} =~ (^|[[:space:]])${_GENERATE_DIR}($|[[:space:]]) ]]; then
+        _GENERATE_DIR="$(git rev-parse --show-toplevel)/phpt";
+        _GENERATE_ARGS=$@;
+    fi
+
+    if [ ! -d "${_GENERATE_DIR}" ]; then
+        displayHelp "Directory ${_GENERATE_DIR} does not exist.";
+    fi
+
+    if [ -z "${_GENERATE_ARGS}" ]; then
+        shift;
+        _GENERATE_ARGS=$@;
+    fi
+}
+
+function fixGenerateDir()
+{
+    if [[ ! "${_GENERATE_DIR}" = /* ]]; then
+        _GENERATE_DIR="$(pwd)/${_GENERATE_DIR}";
+    fi
+}
+
+function executeGenerate()
+{
+    parseGenerateArgs ${_COMMAND_ARGS};
+    fixGenerateDir;
+    docker run --rm -i -t -w /usr/src/phpt -v ${_GENERATE_DIR}:/usr/src/phpt herdphp/phpqa:${_GENERATE_VERSION} \
+        php /usr/src/php/scripts/dev/generate-phpt.phar ${_GENERATE_ARGS} | sed "s/php generate-phpt.php /.\/phpqa/";
+}
+
+function executeCommand()
+{
+    local command=$1;
+    local commandFunction="$(tr a-z A-Z <<< ${command:0:1})${command:1}";
+
+    "execute${commandFunction}" ${_COMMAND_ARGS};
+}
+
+function main()
+{
+    parseArgs $@;
+    executeCommand ${_COMMAND};
+}
+
+main $@;
+

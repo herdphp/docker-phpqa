@@ -112,5 +112,10 @@ RUN set -xe \
 	&& pecl update-channels \
 	&& rm -rf /tmp/pear ~/.pearrc
 
+RUN cd /usr/src/php/scripts/dev \
+    && rm generate-phpt.phar \
+    && php -d phar.readonly=0 generate-phpt/gtPackage.php \
+    && cd /
+
 WORKDIR /usr/src/php/
 CMD ["/bin/bash"]
