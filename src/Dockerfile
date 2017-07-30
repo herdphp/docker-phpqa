@@ -1,9 +1,8 @@
 FROM debian:jessie
 
-ARG BUILD_PHP_VERSION="7.1.6"
+ARG BUILD_PHP_VERSION="7.1.7"
 ARG BUILD_GPG_KEYS="A917B1ECDA84AEC2B568FED6F50ABC807BD5DCD0 528995BFEDFBA7191D46839EF9BA0ADA31CBD89E"
-ARG BUILD_PHP_SHA256="01584dc521ab7ec84b502b61952f573652fe6aa00c18d6d844fb9209f14b245b"
-ARG BUILD_PHP_MD5="eafc7a79cc8cc62c9292c96f9c9ccf90"
+ARG BUILD_PHP_SHA256="0d42089729be7b2bb0308cbe189c2782f9cb4b07078c8a235495be5874fff729"
 ARG BUILD_CHECK_SIGNATURE=true
 ARG BUILD_CUSTOM_URL=''
 
@@ -24,8 +23,9 @@ ENV PHP_CPPFLAGS="$PHP_CFLAGS"
 ENV PHP_LDFLAGS="-Wl,-O1 -Wl,--hash-style=both -pie"
 ENV GPG_KEYS="$BUILD_GPG_KEYS"
 ENV PHP_VERSION="$BUILD_PHP_VERSION"
-ENV PHP_URL="https://secure.php.net/get/php-$PHP_VERSION.tar.xz/from/this/mirror" PHP_ASC_URL="https://secure.php.net/get/php-$PHP_VERSION.tar.xz.asc/from/this/mirror"
-ENV PHP_SHA256="$BUILD_PHP_SHA256" PHP_MD5="$BUILD_PHP_MD5"
+ENV PHP_URL="https://secure.php.net/get/php-$PHP_VERSION.tar.xz/from/this/mirror"
+ENV PHP_ASC_URL="https://secure.php.net/get/php-$PHP_VERSION.tar.xz.asc/from/this/mirror"
+ENV PHP_SHA256="$BUILD_PHP_SHA256"
 ENV CHECK_SIGNATURE="$BUILD_CHECK_SIGNATURE"
 ENV CUSTOM_URL="$BUILD_CUSTOM_URL"
 
@@ -56,9 +56,6 @@ RUN set -xe; \
 	fi; \
 	if [ -n "$PHP_SHA256" && "$CHECK_SIGNATURE" = true ]; then \
 		echo "$PHP_SHA256 *php.tar.xz" | sha256sum -c -; \
-	fi; \
-	if [ -n "$PHP_MD5" && "$CHECK_SIGNATURE" = true ]; then \
-		echo "$PHP_MD5 *php.tar.xz" | md5sum -c -; \
 	fi; \
 	if [ -n "$PHP_ASC_URL" && "$CHECK_SIGNATURE" = true ]; then \
 		wget -O php.tar.xz.asc "$PHP_ASC_URL"; \
