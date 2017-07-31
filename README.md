@@ -81,7 +81,7 @@ phpqa run phpt/examples/closure_061.phpt all
 
 ## PHP versions available
 
-PHP 5.5, 5.6, 7.0, 7.1 and 7.2 (Alpha3) are fully available and supported;
+PHP 5.5, 5.6, 7.0, 7.1 and 7.2 (Beta1) are fully available and supported;
 
 ## Contributing
 
