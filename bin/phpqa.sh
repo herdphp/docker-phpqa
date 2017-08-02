@@ -38,7 +38,7 @@ function displayHelp()
     -x extension...................... Skipif option, specify extension to check for
     -h ............................... Print this message\n";
     printf "${_YELLOW}RUN usage${_NC}:
-    phpqa <path/to/test.phpt|suite> [<version>]\n\n";
+    phpqa run <path/to/test.phpt|suite> [<version>]\n\n";
 
     exit ${exitCode};
 }
