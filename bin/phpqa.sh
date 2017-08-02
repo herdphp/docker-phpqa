@@ -90,8 +90,9 @@ function fixRunPath()
 
 function singleTest()
 {
+    print_f "${_RUN_FILENAME}\n"
     docker run --rm -i -t \
-        -v ${_RUN_FILE_PATH}:/usr/src/phpt/${_RUN_FILENAME} herdphp/phpqa:${_RUN_VERSION} \
+        -v ${_RUN_FILE_PATH}/../:/usr/src/phpt/ herdphp/phpqa:${_RUN_VERSION} \
         make test TESTS=/usr/src/phpt/${_RUN_FILENAME} \
         | sed -e "s/Build complete./Test build successfully./" -e "s/Don't forget to run 'make test'./=\)/";
 }
