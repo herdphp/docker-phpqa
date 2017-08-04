@@ -86,13 +86,16 @@ function fixRunPath()
     if [[ ! "${_RUN_FILE_PATH}" = /* ]]; then
         _RUN_FILE_PATH="$(pwd)/${_RUN_FILE_PATH}";
     fi
+    _RUN_FILE_DIR=$(dirname "${_RUN_FILE_PATH}");
 }
 
 function singleTest()
 {
-    print_f "${_RUN_FILENAME}\n"
+    mkdir -p ${_RUN_FILE_DIR}/${_RUN_VERSION}/;
+    cp ${_RUN_FILE_PATH} ${_RUN_FILE_DIR}/${_RUN_VERSION}/;
     docker run --rm -i -t \
-        -v ${_RUN_FILE_PATH}/../:/usr/src/phpt/ herdphp/phpqa:${_RUN_VERSION} \
+        -v ${_RUN_FILE_DIR}/${_RUN_VERSION}/:/usr/src/phpt/ \
+        herdphp/phpqa:${_RUN_VERSION} \
         make test TESTS=/usr/src/phpt/${_RUN_FILENAME} \
         | sed -e "s/Build complete./Test build successfully./" -e "s/Don't forget to run 'make test'./=\)/";
 }
