@@ -31,14 +31,14 @@ phpqa generate [PHPT_DIR] -f <function_name> |-c <class_name> -m <method_name> -
 
 Where:
 -f function_name ................. Name of PHP function, eg cos
--c class name .....................Name of class, eg DOMDocument
--m method name ....................Name of method, eg createAttribute
+-c class name .................... Name of class, eg DOMDocument
+-m method name ................... Name of method, eg createAttribute
 -b ............................... Generate basic tests
 -e ............................... Generate error tests
 -v ............................... Generate variation tests
 -s sections....................... Create optional sections, colon separated list
 -k skipif key..................... Skipif option, only used if -s skipif is used.
--x extension.......................Skipif option, specify extension to check for
+-x extension...................... Skipif option, specify extension to check for
 -h ............................... Print this message
 ````
 
@@ -81,7 +81,7 @@ phpqa run phpt/examples/closure_061.phpt all
 
 ## PHP versions available
 
-PHP 5.5, 5.6, 7.0, 7.1 and 7.2 (Beta1) are fully available and supported;
+PHP 5.5, 5.6, 7.0, 7.1 and 7.2 (Beta2) are fully available and supported;
 
 ## Contributing
 
