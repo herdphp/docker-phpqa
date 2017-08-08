@@ -1,0 +1,30 @@
+# CircleCI config file
+machine:
+  pre:
+    - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
+  services:
+    - docker
+
+dependencies:
+  override:
+    - docker info
+    - ./bin/build.sh 55
+    - ./bin/build.sh 56
+    - ./bin/build.sh 70
+    - ./bin/build.sh 71
+    - ./bin/build.sh 72
+
+test:
+  override:
+    - ./test/all-tests.sh
+
+deployment:
+  hub:
+    branch: master
+    commands:
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker push herdphp/phpqa:55
+      - docker push herdphp/phpqa:56
+      - docker push herdphp/phpqa:70
+      - docker push herdphp/phpqa:71
+      - docker push herdphp/phpqa:72
