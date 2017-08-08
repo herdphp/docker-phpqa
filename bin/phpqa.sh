@@ -76,6 +76,7 @@ function parseArgs()
 
 function executeRunSuite()
 {
+    docker pull herdphp/phpqa:${_RUN_VERSION};
     docker run --rm -i -t herdphp/phpqa:${_RUN_VERSION} make test;
     exit 0;
 }
@@ -93,6 +94,7 @@ function singleTest()
 {
     mkdir -p ${_RUN_FILE_DIR}/${_RUN_VERSION}/;
     cp -r ${_RUN_FILE_PATH} ${_RUN_FILE_DIR}/${_RUN_VERSION}/;
+    docker pull herdphp/phpqa:${_RUN_VERSION};
     docker run --rm -i -t \
         -v ${_RUN_FILE_DIR}/${_RUN_VERSION}/:/usr/src/phpt/ \
         herdphp/phpqa:${_RUN_VERSION} \
@@ -153,6 +155,7 @@ function executeGenerate()
 {
     parseGenerateArgs ${_COMMAND_ARGS};
     fixGenerateDir;
+    docker pull herdphp/phpqa:${_RUN_VERSION};
     docker run --rm -i -t -w /usr/src/phpt -v ${_GENERATE_DIR}:/usr/src/phpt herdphp/phpqa:${_GENERATE_VERSION} \
         php /usr/src/php/scripts/dev/generate-phpt.phar ${_GENERATE_ARGS} | sed "s/php generate-phpt.php /phpqa/";
 }
