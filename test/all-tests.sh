@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 function version_test()
 {
     if [ ! -z "$1" ] && [ ! -z "$2" ]; then
