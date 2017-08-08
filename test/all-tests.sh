@@ -23,9 +23,25 @@ function all_builds_version_test()
     version_test 72 '7.2';
 }
 
+function generate_phpt_test()
+{
+    local DEFAULT_VERSION=71;
+    local generate=$(docker run --rm -t -i -w /usr/src/phpt herdphp/phpqa:${DEFAULT_VERSION} php /usr/src/php/scripts/dev/generate-phpt.phar -h && echo 'OKOKOKOK' || echo 'KOKOKOKO');
+    
+    if [[ ${generate} == *"OKOKOKOK"* ]]; then
+        echo "PHPQA generate test OK!"
+    else
+        echo "PHPQA generate test Failed!";
+        exit 1;
+    fi
+}
+
 function all_tests()
 {
     echo "Starting version tests";
     all_builds_version_test;
+
+    echo "Starting phpqa generate test"
+    generate_phpt_test;
 }
 all_tests;
