@@ -4,7 +4,7 @@ function version_test()
     if [ ! -z "$1" ] && [ ! -z "$2" ]; then
         local build=$1;
         local version=$2;
-        local versionContainer=$(docker run --rm -v `pwd`:`pwd` -w `pwd` herdphp/phpqa:${build} php ./test/version.php)
+        local versionContainer=$(docker run -v `pwd`:`pwd` -w `pwd` herdphp/phpqa:${build} php ./test/version.php)
         if [[ ${versionContainer} == *"${version}"* ]]; then
             echo "Version ${build} -> ${versionContainer} test OK!";
         else
@@ -26,7 +26,7 @@ function all_builds_version_test()
 function generate_phpt_test()
 {
     local DEFAULT_VERSION=71;
-    local generate=$(docker run --rm -t -i -w /usr/src/phpt herdphp/phpqa:${DEFAULT_VERSION} php /usr/src/php/scripts/dev/generate-phpt.phar -h && echo 'OKOKOKOK' || echo 'KOKOKOKO');
+    local generate=$(docker run -t -i -w /usr/src/phpt herdphp/phpqa:${DEFAULT_VERSION} php /usr/src/php/scripts/dev/generate-phpt.phar -h && echo 'OKOKOKOK' || echo 'KOKOKOKO');
     
     if [[ ${generate} == *"OKOKOKOK"* ]]; then
         echo "PHPQA generate test OK!"

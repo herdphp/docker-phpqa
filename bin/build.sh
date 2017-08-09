@@ -44,6 +44,7 @@ _CUSTOM_URL="_${_VERSION}_CUSTOM_URL"
 
 cd $(git rev-parse --show-toplevel)
 docker build \
+	--rm=false \
     --build-arg BUILD_PHP_VERSION="${!_PHP_VERSION}" \
     --build-arg BUILD_GPG_KEYS="${!_GPG_KEYS}" \
     --build-arg BUILD_PHP_SHA256="${!_PHP_SHA256}" \
