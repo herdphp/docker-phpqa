@@ -62,12 +62,12 @@ function parseRunArgs()
 function parseArgs()
 {
     _COMMAND=$1;
-    if [ -z "${_COMMAND}" ] || ( [ "${_COMMAND}" != "run" ] && [ "${_COMMAND}" != "generate" ] && [ "${_COMMAND}" != "help" ] ); then
-        displayHelp "Unrecognized command ${_COMMAND}.";
+    if [ -z "${_COMMAND}" ] || [ "${_COMMAND}" = "help" ]; then
+        displayHelp;
     fi
 
-    if [ "${_COMMAND}" = "help" ]; then
-        displayHelp;
+    if [ "${_COMMAND}" != "run" ] && [ "${_COMMAND}" != "generate" ] && [ "${_COMMAND}" != "help" ]; then
+        displayHelp "Unrecognized command ${_COMMAND}.";
     fi
 
     shift;
