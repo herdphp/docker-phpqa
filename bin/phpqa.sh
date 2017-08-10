@@ -48,7 +48,7 @@ function parseRunArgs()
     _RUN_FILE_PATH=$1
     _RUN_VERSION=$2;
 
-    if [ -z "${_RUN_FILE_PATH}" ] || ([ ! -f "${_RUN_FILE_PATH}" ] && [ ! -d "${_RUN_FILE_PATH}" ]); then
+    if [ -z "${_RUN_FILE_PATH}" ] || ([ ! -f "${_RUN_FILE_PATH}" ] && [ ! -d "${_RUN_FILE_PATH}" ] && [ ! "${_RUN_FILE_PATH}" = "suite" ]); then
         displayHelp "You need to provide a phpt or a directory with phpt files to be tested or pass \`suite\` as first parameter to run the full test suite.";
     fi
 
