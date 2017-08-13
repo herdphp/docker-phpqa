@@ -5,7 +5,7 @@ _NC='\033[0m' # no color
 
 printf "PHPQA installer started ...\n";
 
-printf "Step 1: clonning the repository to ${_YELLOW}$HOME/.phpqa/bin/phpqa.sh${_NC}\n";
+printf "Step 1: cloning the repository to ${_YELLOW}$HOME/.phpqa/bin/phpqa.sh${_NC}\n";
 if [ -d "$HOME/.phpqa" ]; then
     rm -rf $HOME/.phpqa;
 fi
