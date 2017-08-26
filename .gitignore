@@ -1,3 +1,4 @@
 .idea/*
 phpt/*
 !phpt/examples/*.phpt
+*.phpt

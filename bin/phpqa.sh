@@ -130,7 +130,7 @@ function parseGenerateArgs()
     _GENERATE_VERSION=${_PHPQA_PHP_VERSION};
 
     if [ -z "${_GENERATE_DIR}" ] || [[ ${generateOptions} =~ (^|[[:space:]])${_GENERATE_DIR}($|[[:space:]]) ]]; then
-        _GENERATE_DIR="$(git rev-parse --show-toplevel)/phpt";
+        _GENERATE_DIR="$(pwd)";
         _GENERATE_ARGS=$@;
     fi
 
