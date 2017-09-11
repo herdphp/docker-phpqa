@@ -15,8 +15,12 @@ to create PHPT tests for PHP language engine and its core extensions.
 ````bash
 curl -s https://raw.githubusercontent.com/herdphp/docker-phpqa/master/bin/installer.sh | bash
 ````
+3. Make sure the Docker daemon is running:
+```bash
+sudo systemctl start docker
+```
 
-3. Start PHPTesting!!!
+4. Start PHPTesting!!!
 
 ## How to use it?
 
