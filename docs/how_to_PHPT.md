@@ -125,7 +125,7 @@ Mac Found
 
 - Run the test to see the output
 
-```phpqa phpt/username ```
+```./phpqa run phpt/username ```
 
 You should get an console output like this
 ```
