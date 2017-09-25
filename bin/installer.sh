@@ -9,7 +9,7 @@ printf "Step 1: cloning the repository to ${_YELLOW}$HOME/.phpqa/bin/phpqa.sh${_
 if [ -d "$HOME/.phpqa" ]; then
     rm -rf $HOME/.phpqa;
 fi
-git clone git@github.com:herdphp/docker-phpqa.git $HOME/.phpqa;
+git clone https://github.com/herdphp/docker-phpqa.git $HOME/.phpqa;
 
 printf "Step 2: linking ${_YELLOW}phpqa.sh${_NC} to ${_YELLOW}/usr/local/bin/phpqa${_NC} ...\n";
 if [ -L "/usr/local/bin/phpqa" ] ; then
