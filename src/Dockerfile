@@ -91,7 +91,6 @@ RUN set -xe \
 		--build="$gnuArch" \
 		--with-config-file-path="$PHP_INI_DIR" \
 		--with-config-file-scan-dir="$PHP_INI_DIR/conf.d" \
-		--disable-cgi \
 		--enable-ftp \
 		--enable-mbstring \
 		--enable-mysqlnd \
