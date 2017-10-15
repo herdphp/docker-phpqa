@@ -54,8 +54,8 @@ function parseRunArgs()
 
     if [ -z "${_RUN_VERSION}" ]; then
         _RUN_VERSION=${_PHPQA_PHP_VERSION};
-    elif [ "${_RUN_VERSION}" != "72" ] && [ "${_RUN_VERSION}" != "71" ] && [ "${_RUN_VERSION}" != "70" ] && [ "${_RUN_VERSION}" != "56" ] && [ "${_RUN_VERSION}" != "55" ]; then
-        displayHelp "The versions supported are 55, 56, 70, 71, 72 or all to run in all available versions.";
+    elif [ "${_RUN_VERSION}" != "master" ] && [ "${_RUN_VERSION}" != "72" ] && [ "${_RUN_VERSION}" != "71" ] && [ "${_RUN_VERSION}" != "70" ] && [ "${_RUN_VERSION}" != "56" ] && [ "${_RUN_VERSION}" != "55" ]; then
+        displayHelp "The versions supported are 55, 56, 70, 71, 72, master or all to run in all available versions.";
     fi
 }
 
@@ -107,6 +107,7 @@ function executeRun()
     parseRunArgs ${_COMMAND_ARGS};
 
     if [ "${_RUN_VERSION}" = "all" ]; then
+        $(git rev-parse --show-toplevel)/bin/phpqa.sh ${_RUN_FILENAME} master;
         $(git rev-parse --show-toplevel)/bin/phpqa.sh ${_RUN_FILENAME} 72;
         $(git rev-parse --show-toplevel)/bin/phpqa.sh ${_RUN_FILENAME} 71;
         $(git rev-parse --show-toplevel)/bin/phpqa.sh ${_RUN_FILENAME} 70;
