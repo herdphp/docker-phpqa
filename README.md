@@ -64,7 +64,7 @@ phpqa generate /path/to/phpt/dir -f ucfirst -b
 ### To run your created tests against multiple PHP versions
 
 1. Write a PHPT test in **any folder**;
-2. Run the `phpqa` command passing as arguments the filepath (relative or full) and the PHP version to run the test (72, 71, 70, 56, 55, all):
+2. Run the `phpqa` command passing as arguments the filepath (relative or full) and the PHP version to run the test (master, 72, 71, 70, 56, 55, all):
 
 ````bash
 # without a version the test will run against the latest PHP stable version (PHP 7.1) codebase
@@ -81,7 +81,7 @@ phpqa run phpt/examples/closure_061.phpt all
 
 ## PHP versions available
 
-PHP 5.5, 5.6, 7.0, 7.1 and 7.2 (Beta2) are fully available and supported;
+PHP 5.5, 5.6, 7.0, 7.1, 7.2 (RC4) and the master branch from PHP-SRC repository are fully available and supported;
 
 ## Contributing
 
