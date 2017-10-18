@@ -24,6 +24,9 @@ function displayHelp()
     fi
 
     printf "${_GREEN}docker-phpqa - Docker tools to easily create and run tests for the PHP-SRC${_NC}\n";
+    printf "${_YELLOW}GENERAL usage${_NC}:
+    phpqa help ....................... Display this help message
+    phpqa updade ..................... Update scripts and Docker images\n";
     printf "${_YELLOW}GENERATE usage${_NC}:
     phpqa generate [PHPT_DIR] -f <function_name> |-c <class_name> -m <method_name> -b|e|v [-s skipif:ini:clean:done] [-k win|notwin|64b|not64b] [-x ext]
     Where:
@@ -38,7 +41,7 @@ function displayHelp()
     -x extension...................... Skipif option, specify extension to check for
     -h ............................... Print this message\n";
     printf "${_YELLOW}RUN usage${_NC}:
-    phpqa run <path/to/test.phpt|suite> [<version>]\n\n";
+    phpqa run <path/to/test.phpt|suite> [<version>]\n";
 
     exit ${exitCode};
 }
@@ -54,9 +57,28 @@ function parseRunArgs()
 
     if [ -z "${_RUN_VERSION}" ]; then
         _RUN_VERSION=${_PHPQA_PHP_VERSION};
-    elif [ "${_RUN_VERSION}" != "72" ] && [ "${_RUN_VERSION}" != "71" ] && [ "${_RUN_VERSION}" != "70" ] && [ "${_RUN_VERSION}" != "56" ] && [ "${_RUN_VERSION}" != "55" ]; then
-        displayHelp "The versions supported are 55, 56, 70, 71, 72 or all to run in all available versions.";
+    elif [ "${_RUN_VERSION}" != "master" ] && [ "${_RUN_VERSION}" != "72" ] && [ "${_RUN_VERSION}" != "71" ] && [ "${_RUN_VERSION}" != "70" ] && [ "${_RUN_VERSION}" != "56" ] && [ "${_RUN_VERSION}" != "55" ]; then
+        displayHelp "The versions supported are 55, 56, 70, 71, 72, master or all to run in all available versions.";
     fi
+}
+
+function updateAll()
+{
+    printf "${_YELLOW}[Update 1/2]${_NC} Updating docker-phpqa scripts...\n"
+    git pull;
+    printf "${_GREEN}[Update 1/2]${_NC} Scripts updated!\n"
+
+    printf "${_YELLOW}[Update 2/2]${_NC} Updating docker-phpqa Docker images...\n"
+    docker pull herdphp/phpqa:master;
+    docker pull herdphp/phpqa:72;
+    docker pull herdphp/phpqa:71;
+    docker pull herdphp/phpqa:70;
+    docker pull herdphp/phpqa:56;
+    docker pull herdphp/phpqa:55;
+    printf "${_GREEN}[Update 2/2]${_NC} Docker images updated!\n"
+    printf "${_GREEN}Your docker-phpqa is now fully updated.${_NC}\n"
+
+    exit 0;
 }
 
 function parseArgs()
@@ -64,6 +86,11 @@ function parseArgs()
     _COMMAND=$1;
     if [ -z "${_COMMAND}" ] || [ "${_COMMAND}" = "help" ]; then
         displayHelp;
+    fi
+
+    _COMMAND=$1;
+    if [ "${_COMMAND}" = "update" ]; then
+        updateAll;
     fi
 
     if [ "${_COMMAND}" != "run" ] && [ "${_COMMAND}" != "generate" ] && [ "${_COMMAND}" != "help" ]; then
@@ -76,7 +103,6 @@ function parseArgs()
 
 function executeRunSuite()
 {
-    docker pull herdphp/phpqa:${_RUN_VERSION};
     docker run --rm -i -t herdphp/phpqa:${_RUN_VERSION} make test;
     exit 0;
 }
@@ -94,7 +120,6 @@ function singleTest()
 {
     mkdir -p ${_RUN_FILE_DIR}/${_RUN_VERSION}/;
     cp -r ${_RUN_FILE_PATH} ${_RUN_FILE_DIR}/${_RUN_VERSION}/;
-    docker pull herdphp/phpqa:${_RUN_VERSION};
     docker run --rm -i -t \
         -v ${_RUN_FILE_DIR}/${_RUN_VERSION}/:/usr/src/phpt/ \
         herdphp/phpqa:${_RUN_VERSION} \
@@ -107,6 +132,7 @@ function executeRun()
     parseRunArgs ${_COMMAND_ARGS};
 
     if [ "${_RUN_VERSION}" = "all" ]; then
+        $(git rev-parse --show-toplevel)/bin/phpqa.sh ${_RUN_FILENAME} master;
         $(git rev-parse --show-toplevel)/bin/phpqa.sh ${_RUN_FILENAME} 72;
         $(git rev-parse --show-toplevel)/bin/phpqa.sh ${_RUN_FILENAME} 71;
         $(git rev-parse --show-toplevel)/bin/phpqa.sh ${_RUN_FILENAME} 70;
@@ -155,7 +181,6 @@ function executeGenerate()
 {
     parseGenerateArgs ${_COMMAND_ARGS};
     fixGenerateDir;
-    docker pull herdphp/phpqa:${_GENERATE_VERSION};
     docker run --rm -i -t -w /usr/src/phpt -v ${_GENERATE_DIR}:/usr/src/phpt herdphp/phpqa:${_GENERATE_VERSION} \
         php /usr/src/php/scripts/dev/generate-phpt.phar ${_GENERATE_ARGS} | sed "s/php generate-phpt.php /phpqa/";
 }

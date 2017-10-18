@@ -64,7 +64,7 @@ phpqa generate /path/to/phpt/dir -f ucfirst -b
 ### To run your created tests against multiple PHP versions
 
 1. Write a PHPT test in **any folder**;
-2. Run the `phpqa` command passing as arguments the filepath (relative or full) and the PHP version to run the test (72, 71, 70, 56, 55, all):
+2. Run the `phpqa` command passing as arguments the filepath (relative or full) and the PHP version to run the test (master, 72, 71, 70, 56, 55, all):
 
 ````bash
 # without a version the test will run against the latest PHP stable version (PHP 7.1) codebase
@@ -75,13 +75,26 @@ phpqa run phpt/examples/closure_061.phpt 56
 phpqa run phpt/examples/closure_061.phpt all
 ````
 
+### Stay upated for bug fixes and new features
+
+To update your `docker-phpqa` tool and images just call the update command:
+
+````bash
+phpqa update
+````
+
+### Usage help
+
+`docker-phpqa` has a small set of commands and a quick way to get help about its usage is either type the `phpqa`
+command without any arguments or calling `phpqa help` command.
+
 ## How to .PHPT
 
 [Build your first test](https://github.com/herdphp/docker-phpqa/wiki/How-To-PHPT)
 
 ## PHP versions available
 
-PHP 5.5, 5.6, 7.0, 7.1 and 7.2 (Beta2) are fully available and supported;
+PHP 5.5, 5.6, 7.0, 7.1, 7.2 (RC4) and the master branch from PHP-SRC repository are fully available and supported;
 
 ## Contributing
 
@@ -100,6 +113,7 @@ This repository intent to facilitate participation and contribution in the PHP T
 * [Discussion at PHP User Groups list](https://groups.google.com/a/phpcommunity.org/forum/?utm_medium=email&utm_source=footer#!topic/testfest/-C2pcxod65g)
 * [Testing with .php files on PHP Internals Book](https://www.phpinternalsbook.com/tests/introduction.html)
 * [Playlist in how compile PHP and start writing tests - by Sammy Kaye](https://www.youtube.com/playlist?list=PLN7yVcqYnDlUvWDG362C67-sL1PBpm6Yy)
+* [PHPDublin Meetup: PHP test fest - by Barry O Sullivan](https://www.slideshare.net/BarryOSullivan18/php-test-fest)
 
 ## Credits
 

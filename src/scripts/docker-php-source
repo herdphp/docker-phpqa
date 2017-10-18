@@ -17,9 +17,10 @@ usage() {
 case "$1" in
 	extract)
 		mkdir -p "$dir"
-		if [ ! -f "$dir/.docker-extracted" ]; then
+		if [ -f "/usr/src/php-src-master.zip" ]; then
+            unzip /usr/src/php-src-master.zip -d "/tmp" && mv /tmp/php-src-master/* "$dir"
+		elif [ -f "/usr/src/php.tar.xz" ]; then
 			tar -Jxf /usr/src/php.tar.xz -C "$dir" --strip-components=1
-			touch "$dir/.docker-extracted"
 		fi
 		;;
 
