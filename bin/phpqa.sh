@@ -54,7 +54,7 @@ function parseRunArgs()
 
     if [ -z "${_RUN_VERSION}" ]; then
         _RUN_VERSION=${_PHPQA_PHP_VERSION};
-    elif [ "${_RUN_VERSION}" != "72" ] && [ "${_RUN_VERSION}" != "71" ] && [ "${_RUN_VERSION}" != "70" ] && [ "${_RUN_VERSION}" != "56" ] && [ "${_RUN_VERSION}" != "55" ]; then
+    elif [ "${_RUN_VERSION}" != "72" ] && [ "${_RUN_VERSION}" != "71" ] && [ "${_RUN_VERSION}" != "70" ] && [ "${_RUN_VERSION}" != "56" ] && [ "${_RUN_VERSION}" != "55" ] && [ "${_RUN_VERSION}" != "all" ]; then
         displayHelp "The versions supported are 55, 56, 70, 71, 72 or all to run in all available versions.";
     fi
 }
@@ -107,11 +107,11 @@ function executeRun()
     parseRunArgs ${_COMMAND_ARGS};
 
     if [ "${_RUN_VERSION}" = "all" ]; then
-        $(git rev-parse --show-toplevel)/bin/phpqa.sh ${_RUN_FILENAME} 72;
-        $(git rev-parse --show-toplevel)/bin/phpqa.sh ${_RUN_FILENAME} 71;
-        $(git rev-parse --show-toplevel)/bin/phpqa.sh ${_RUN_FILENAME} 70;
-        $(git rev-parse --show-toplevel)/bin/phpqa.sh ${_RUN_FILENAME} 56;
-        $(git rev-parse --show-toplevel)/bin/phpqa.sh ${_RUN_FILENAME} 55;
+        /usr/local/bin/phpqa run ${_RUN_FILE_PATH} 72;
+        /usr/local/bin/phpqa run ${_RUN_FILE_PATH} 71;
+        /usr/local/bin/phpqa run ${_RUN_FILE_PATH} 70;
+        /usr/local/bin/phpqa run ${_RUN_FILE_PATH} 56;
+        /usr/local/bin/phpqa run ${_RUN_FILE_PATH} 55;
         exit 0;
     fi
 
@@ -175,4 +175,3 @@ function main()
 }
 
 main $@;
-
