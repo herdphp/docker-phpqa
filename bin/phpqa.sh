@@ -26,7 +26,7 @@ function displayHelp()
     printf "${_GREEN}docker-phpqa - Docker tools to easily create and run tests for the PHP-SRC${_NC}\n";
     printf "${_YELLOW}GENERAL usage${_NC}:
     phpqa help ....................... Display this help message
-    phpqa updade ..................... Update scripts and Docker images\n";
+    phpqa update ..................... Update scripts and Docker images\n";
     printf "${_YELLOW}GENERATE usage${_NC}:
     phpqa generate [PHPT_DIR] -f <function_name> |-c <class_name> -m <method_name> -b|e|v [-s skipif:ini:clean:done] [-k win|notwin|64b|not64b] [-x ext]
     Where:
