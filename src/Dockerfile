@@ -14,6 +14,7 @@ ENV PHPIZE_DEPS \
 		g++ \
 		gcc \
 		libc-dev \
+		lcov \
 		libpcre3-dev \
 		make \
 		pkg-config \
@@ -107,6 +108,7 @@ RUN docker-php-source extract \
 		--enable-mbstring \
 		--enable-mysqlnd \
 		--with-curl \
+		--enable-gcov \
 		--with-libedit \
 		--with-openssl \
 		--with-zlib \
