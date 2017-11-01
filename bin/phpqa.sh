@@ -25,8 +25,9 @@ function displayHelp()
 
     printf "${_GREEN}docker-phpqa - Docker tools to easily create and run tests for the PHP-SRC${_NC}\n";
     printf "${_YELLOW}GENERAL usage${_NC}:
+    phpqa gcov ....................... Generate GCOV report to all tests 
     phpqa help ....................... Display this help message
-    phpqa updade ..................... Update scripts and Docker images\n";
+    phpqa update ..................... Update scripts and Docker images\n";
     printf "${_YELLOW}GENERATE usage${_NC}:
     phpqa generate [PHPT_DIR] -f <function_name> |-c <class_name> -m <method_name> -b|e|v [-s skipif:ini:clean:done] [-k win|notwin|64b|not64b] [-x ext]
     Where:
@@ -67,8 +68,7 @@ function updateAll()
     printf "${_YELLOW}[Update 1/2]${_NC} Updating docker-phpqa scripts...\n"
     git pull;
     printf "${_GREEN}[Update 1/2]${_NC} Scripts updated!\n"
-
-    printf "${_YELLOW}[Update 2/2]${_NC} Updating docker-phpqa Docker images...\n"
+    printf "${_YELLOW}[Update 2/2]${_NC} Updating docker-lphpqa Docker images...\n"
     docker pull herdphp/phpqa:master;
     docker pull herdphp/phpqa:72;
     docker pull herdphp/phpqa:71;
@@ -93,7 +93,12 @@ function parseArgs()
         updateAll;
     fi
 
-    if [ "${_COMMAND}" != "run" ] && [ "${_COMMAND}" != "generate" ] && [ "${_COMMAND}" != "help" ]; then
+    _COMMAND=$1;
+    if [ "${_COMMAND}" = "gcov" ]; then
+        executeGcov;
+    fi
+
+    if [ "${_COMMAND}" != "run" ] && [ "${_COMMAND}" != "generate" ] && [ "${_COMMAND}" != "help" ] && [ "${_COMMAND}" != "gcov" ]; then
         displayHelp "Unrecognized command ${_COMMAND}.";
     fi
 
@@ -192,6 +197,14 @@ function executeCommand()
 
     "execute${commandFunction}" ${_COMMAND_ARGS};
 }
+
+function executeGcov()
+{
+    docker run --rm -i -t herdphp/phpqa:${_RUN_VERSION} make lcov;
+    printf "${_GREEN}The coverage report were generated and is available at lcov_html/index.html \n"
+    exit 0;
+}
+
 
 function main()
 {
