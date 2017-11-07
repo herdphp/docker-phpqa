@@ -21,6 +21,7 @@ function all_builds_version_test()
     version_test 70 '7.0';
     version_test 71 '7.1';
     version_test 72 '7.2';
+    version_test master '7.3';
 }
 
 function generate_phpt_test()

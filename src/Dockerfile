@@ -5,6 +5,7 @@ ARG BUILD_GPG_KEYS="A917B1ECDA84AEC2B568FED6F50ABC807BD5DCD0 528995BFEDFBA7191D4
 ARG BUILD_PHP_SHA256="0d42089729be7b2bb0308cbe189c2782f9cb4b07078c8a235495be5874fff729"
 ARG BUILD_CHECK_SIGNATURE=true
 ARG BUILD_CUSTOM_URL=''
+ARG BUILD_REPO_URL=''
 
 ENV PHPIZE_DEPS \
 		autoconf \
@@ -28,6 +29,7 @@ ENV PHP_ASC_URL="https://secure.php.net/get/php-$PHP_VERSION.tar.xz.asc/from/thi
 ENV PHP_SHA256="$BUILD_PHP_SHA256"
 ENV CHECK_SIGNATURE="$BUILD_CHECK_SIGNATURE"
 ENV CUSTOM_URL="$BUILD_CUSTOM_URL"
+ENV REPO_URL="$BUILD_REPO_URL"
 
 RUN apt-get update && apt-get install -y \
 		$PHPIZE_DEPS \
@@ -43,21 +45,24 @@ RUN set -xe; \
 	\
 	fetchDeps=' \
 		wget \
+		unzip \
 	'; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends $fetchDeps; \
 	rm -rf /var/lib/apt/lists/*; \
 	mkdir -p /usr/src; \
 	cd /usr/src; \
-	if [ -n "$CUSTOM_URL" ]; then \
+	if [ -n "$REPO_URL" ]; then \
+    	wget -O php-src-master.zip "$REPO_URL"; \
+	elif [ -n "$CUSTOM_URL" ]; then \
 	    wget -O php.tar.xz "$CUSTOM_URL"; \
 	else \
 	    wget -O php.tar.xz "$PHP_URL"; \
 	fi; \
-	if [ -n "$PHP_SHA256" && "$CHECK_SIGNATURE" = true ]; then \
+	if [ -n "$PHP_SHA256" ] && [ "$CHECK_SIGNATURE" = "true" ]; then \
 		echo "$PHP_SHA256 *php.tar.xz" | sha256sum -c -; \
 	fi; \
-	if [ -n "$PHP_ASC_URL" && "$CHECK_SIGNATURE" = true ]; then \
+	if [ -n "$PHP_ASC_URL" ] && [ "$CHECK_SIGNATURE" = "true" ]; then \
 		wget -O php.tar.xz.asc "$PHP_ASC_URL"; \
 		export GNUPGHOME="$(mktemp -d)"; \
 		for key in $GPG_KEYS; do \
@@ -65,8 +70,7 @@ RUN set -xe; \
 		done; \
 		gpg --batch --verify php.tar.xz.asc php.tar.xz; \
 		rm -r "$GNUPGHOME"; \
-	fi; \
-	apt-get purge -y --auto-remove $fetchDeps
+	fi;
 
 COPY scripts/docker-php-* /usr/local/bin/
 
@@ -78,15 +82,23 @@ RUN set -xe \
 		libsqlite3-dev \
 		libssl-dev \
 		libxml2-dev \
+		build-essential \
+		autoconf \
+        automake \
+        libtool \
+        bison \
+        re2c \
 	" \
 	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends && rm -rf /var/lib/apt/lists/* \
 	&& export CFLAGS="$PHP_CFLAGS" \
 		CPPFLAGS="$PHP_CPPFLAGS" \
-		LDFLAGS="$PHP_LDFLAGS" \
-	&& docker-php-source extract \
+		LDFLAGS="$PHP_LDFLAGS"
+
+RUN docker-php-source extract \
 	&& cd /usr/src/php \
 	&& gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" \
 	&& debMultiarch="$(dpkg-architecture --query DEB_BUILD_MULTIARCH)" \
+	&& if [ -n "$REPO_URL" ]; then ./buildconf; fi \
 	&& ./configure \
 		--build="$gnuArch" \
 		--with-config-file-path="$PHP_INI_DIR" \
@@ -106,7 +118,8 @@ RUN set -xe \
 	&& { find /usr/local/bin /usr/local/sbin -type f -executable -exec strip --strip-all '{}' + || true; } \
 	&& cd / \
 	&& pecl update-channels \
-	&& rm -rf /tmp/pear ~/.pearrc
+	&& rm -rf /tmp/pear ~/.pearrc \
+	&& apt-get purge -y --auto-remove $fetchDeps
 
 RUN cd /usr/src/php/scripts/dev \
     && rm generate-phpt.phar \
