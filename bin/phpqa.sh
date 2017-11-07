@@ -133,7 +133,7 @@ function executeRun()
 
     if [ "${_RUN_VERSION}" = "all" ]; then
 
-        $(git rev-parse --show-toplevel)/bin/phpqa.sh ${_RUN_FILENAME} master;
+        $(git rev-parse --show-toplevel)/bin/phpqa.sh run ${_RUN_FILE_PATH} master;
         $(git rev-parse --show-toplevel)/bin/phpqa.sh run ${_RUN_FILE_PATH} 72;
         $(git rev-parse --show-toplevel)/bin/phpqa.sh run ${_RUN_FILE_PATH} 71;
         $(git rev-parse --show-toplevel)/bin/phpqa.sh run ${_RUN_FILE_PATH} 70;
