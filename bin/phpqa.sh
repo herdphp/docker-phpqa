@@ -107,11 +107,11 @@ function executeRun()
     parseRunArgs ${_COMMAND_ARGS};
 
     if [ "${_RUN_VERSION}" = "all" ]; then
-        /usr/local/bin/phpqa run ${_RUN_FILE_PATH} 72;
-        /usr/local/bin/phpqa run ${_RUN_FILE_PATH} 71;
-        /usr/local/bin/phpqa run ${_RUN_FILE_PATH} 70;
-        /usr/local/bin/phpqa run ${_RUN_FILE_PATH} 56;
-        /usr/local/bin/phpqa run ${_RUN_FILE_PATH} 55;
+        $(git rev-parse --show-toplevel)/bin/phpqa.sh run ${_RUN_FILE_PATH} 72;
+        $(git rev-parse --show-toplevel)/bin/phpqa.sh run ${_RUN_FILE_PATH} 71;
+        $(git rev-parse --show-toplevel)/bin/phpqa.sh run ${_RUN_FILE_PATH} 70;
+        $(git rev-parse --show-toplevel)/bin/phpqa.sh run ${_RUN_FILE_PATH} 56;
+        $(git rev-parse --show-toplevel)/bin/phpqa.sh run ${_RUN_FILE_PATH} 55;
         exit 0;
     fi
 
