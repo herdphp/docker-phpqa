@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+#PIPPO
 _YELLOW='\033[1;33m' # yellow color
 _GREEN='\033[0;32m' # green color
 _NC='\033[0m' # no color
@@ -26,7 +26,7 @@ function displayHelp()
     printf "${_GREEN}docker-phpqa - Docker tools to easily create and run tests for the PHP-SRC${_NC}\n";
     printf "${_YELLOW}GENERAL usage${_NC}:
     phpqa help ....................... Display this help message
-    phpqa update ..................... Update scripts and Docker images\n";
+    phpqa updade ..................... Update scripts and Docker images\n";
     printf "${_YELLOW}GENERATE usage${_NC}:
     phpqa generate [PHPT_DIR] -f <function_name> |-c <class_name> -m <method_name> -b|e|v [-s skipif:ini:clean:done] [-k win|notwin|64b|not64b] [-x ext]
     Where:
@@ -58,7 +58,7 @@ function parseRunArgs()
     if [ -z "${_RUN_VERSION}" ]; then
         _RUN_VERSION=${_PHPQA_PHP_VERSION};
     elif [ "${_RUN_VERSION}" != "master" ] && [ "${_RUN_VERSION}" != "72" ] && [ "${_RUN_VERSION}" != "71" ] && [ "${_RUN_VERSION}" != "70" ] && [ "${_RUN_VERSION}" != "56" ] && [ "${_RUN_VERSION}" != "55" ] && [ "${_RUN_VERSION}" != "all" ]; then
-        displayHelp "The versions supported are 55, 56, 70, 71, 72 or all to run in all available versions.";
+        displayHelp "The versions supported are 55, 56, 70, 71, 72, master or all to run in all available versions.";
     fi
 }
 
@@ -120,6 +120,10 @@ function singleTest()
 {
     mkdir -p ${_RUN_FILE_DIR}/${_RUN_VERSION}/;
     cp -r ${_RUN_FILE_PATH} ${_RUN_FILE_DIR}/${_RUN_VERSION}/;
+    echo "*****"
+    echo "cp -r ${_RUN_FILE_PATH} ${_RUN_FILE_DIR}/${_RUN_VERSION}/;"
+    echo "*****"
+    echo "docker run --rm -i -t -v ${_RUN_FILE_DIR}/${_RUN_VERSION}/:/usr/src/phpt/ herdphp/phpqa:${_RUN_VERSION} make test TESTS=/usr/src/phpt/${_RUN_FILENAME} "
     docker run --rm -i -t \
         -v ${_RUN_FILE_DIR}/${_RUN_VERSION}/:/usr/src/phpt/ \
         herdphp/phpqa:${_RUN_VERSION} \
@@ -132,12 +136,12 @@ function executeRun()
     parseRunArgs ${_COMMAND_ARGS};
 
     if [ "${_RUN_VERSION}" = "all" ]; then
-        $(git rev-parse --show-toplevel)/bin/phpqa.sh run ${_RUN_FILE_PATH} master;
-        $(git rev-parse --show-toplevel)/bin/phpqa.sh run ${_RUN_FILE_PATH} 72;
-        $(git rev-parse --show-toplevel)/bin/phpqa.sh run ${_RUN_FILE_PATH} 71;
-        $(git rev-parse --show-toplevel)/bin/phpqa.sh run ${_RUN_FILE_PATH} 70;
-        $(git rev-parse --show-toplevel)/bin/phpqa.sh run ${_RUN_FILE_PATH} 56;
-        $(git rev-parse --show-toplevel)/bin/phpqa.sh run ${_RUN_FILE_PATH} 55;
+        phpqa run ${_RUN_FILE_PATH} master;
+        phpqa run ${_RUN_FILE_PATH} 72;
+        phpqa run ${_RUN_FILE_PATH} 71;
+        phpqa run ${_RUN_FILE_PATH} 70;
+        phpqa run ${_RUN_FILE_PATH} 56;
+        phpqa run ${_RUN_FILE_PATH} 55;
         exit 0;
     fi
 
@@ -200,3 +204,4 @@ function main()
 }
 
 main $@;
+
