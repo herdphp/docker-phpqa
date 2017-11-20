@@ -57,8 +57,8 @@ function parseRunArgs()
 
     if [ -z "${_RUN_VERSION}" ]; then
         _RUN_VERSION=${_PHPQA_PHP_VERSION};
-    elif [ "${_RUN_VERSION}" != "master" ] && [ "${_RUN_VERSION}" != "72" ] && [ "${_RUN_VERSION}" != "71" ] && [ "${_RUN_VERSION}" != "70" ] && [ "${_RUN_VERSION}" != "56" ] && [ "${_RUN_VERSION}" != "55" ] && [ "${_RUN_VERSION}" != "all" ]; then
-        displayHelp "The versions supported are 55, 56, 70, 71, 72 or all to run in all available versions.";
+    elif [ "${_RUN_VERSION}" != "master" ] && [ "${_RUN_VERSION}" != "72" ] && [ "${_RUN_VERSION}" != "71" ] && [ "${_RUN_VERSION}" != "70" ] && [ "${_RUN_VERSION}" != "56" ] && [ "${_RUN_VERSION}" != "55" ]; then
+        displayHelp "The versions supported are 55, 56, 70, 71, 72, master or all to run in all available versions.";
     fi
 }
 
