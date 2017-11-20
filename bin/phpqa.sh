@@ -4,8 +4,19 @@ _YELLOW='\033[1;33m' # yellow color
 _GREEN='\033[0;32m' # green color
 _NC='\033[0m' # no color
 
-_PHPQA_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 _PHPQA_PHP_VERSION=71;
+
+function defineScriptDir()
+{
+    local scriptPath;
+    if [ "$(uname)" == "Darwin" ]; then
+        scriptPath=$(readlink $0);
+    elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+        scriptPath=$(readlink -f $0);
+    fi
+
+    _PHPQA_DIR=$(dirname "${scriptPath}");
+}
 
 function displayError()
 {
@@ -67,7 +78,7 @@ function parseRunArgs()
 function updateAll()
 {
     printf "${_YELLOW}[Update 1/2]${_NC} Updating docker-phpqa scripts...\n"
-    pushd $_PHPQA_DIR
+    pushd ${_PHPQA_DIR}
     git pull
     popd
     printf "${_GREEN}[Update 1/2]${_NC} Scripts updated!\n"
@@ -211,6 +222,7 @@ function executeGcov()
 
 function main()
 {
+    defineScriptDir;
     parseArgs $@;
     executeCommand ${_COMMAND};
 }
