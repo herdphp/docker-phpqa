@@ -39,6 +39,10 @@ RUN apt-get update && apt-get install -y \
 		libsqlite3-0 \
 		libxml2 \
 		xz-utils \
+        libjpeg-dev \
+        libpng-dev \
+        libfreetype6-dev \
+        libzip-dev \
 	--no-install-recommends && rm -r /var/lib/apt/lists/*
 RUN mkdir -p $PHP_INI_DIR/conf.d
 RUN set -xe; \
@@ -106,11 +110,15 @@ RUN docker-php-source extract \
 		--enable-ftp \
 		--enable-mbstring \
 		--enable-mysqlnd \
+		--enable-zip \
 		--with-curl \
 		--with-libedit \
 		--with-openssl \
 		--with-zlib \
-		--with-pcre-regex=/usr \
+		--with-gd \
+        --with-jpeg-dir \
+        --with-png-dir \
+		--with-pcre-regex \
 		--with-libdir="lib/$debMultiarch" \
 		$PHP_EXTRA_CONFIGURE_ARGS \
 	&& make -j "$(nproc)" \
