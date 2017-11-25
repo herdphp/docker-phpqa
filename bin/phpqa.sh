@@ -107,11 +107,6 @@ function parseArgs()
         updateAll;
     fi
 
-    _COMMAND=$1;
-    if [ "${_COMMAND}" = "gcov" ]; then
-        executeGcov;
-    fi
-
     if [ "${_COMMAND}" != "run" ] && [ "${_COMMAND}" != "generate" ] && [ "${_COMMAND}" != "help" ] && [ "${_COMMAND}" != "gcov" ]; then
         displayHelp "Unrecognized command ${_COMMAND}.";
     fi
@@ -214,6 +209,8 @@ function executeCommand()
 
 function executeGcov()
 {
+    _RUN_VERSION=$1;
+
     docker run --rm -i -t herdphp/phpqa:${_RUN_VERSION} make lcov;
     printf "${_GREEN}The coverage report were generated and is available at lcov_html/index.html \n"
     exit 0;
