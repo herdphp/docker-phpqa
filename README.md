@@ -75,7 +75,16 @@ phpqa run phpt/examples/closure_061.phpt 56
 phpqa run phpt/examples/closure_061.phpt all
 ````
 
-### Stay upated for bug fixes and new features
+### To generate the coverage report
+
+````bash
+# without a version the coverage report will be generated for the latest PHP stable version (PHP 7.1) codebase
+phpqa gcov
+# with a version the coverage report will be generated for the specified version
+phpqa gcov 70
+````
+
+### Stay updated for bug fixes and new features
 
 To update your `docker-phpqa` tool and images just call the update command:
 
@@ -88,9 +97,9 @@ phpqa update
 `docker-phpqa` has a small set of commands and a quick way to get help about its usage is either type the `phpqa`
 command without any arguments or calling `phpqa help` command.
 
-## How to .PHPT
+## Wiki
 
-[Build your first test](https://github.com/herdphp/docker-phpqa/wiki/How-To-PHPT)
+For tutorials, cookbooks and more information about how to use phpqa please take a [look at our wiki](https://github.com/herdphp/docker-phpqa/wiki/How-To-PHPT).
 
 ## PHP versions available
 

@@ -209,9 +209,15 @@ function executeCommand()
 
 function executeGcov()
 {
-    _RUN_VERSION=$1;
+    _GCOV_VERSION=${_PHPQA_PHP_VERSION};
+    if [ ! -z "${_RUN_FILE_PATH}" ]; then
+        _GCOV_VERSION=$1;
+    fi
 
-    docker run --rm -i -t herdphp/phpqa:${_RUN_VERSION} make lcov;
+    _GCOV_FOLDER=$(git rev-parse --show-toplevel)/phpt/gcov/${_GCOV_VERSION};
+    mkdir -p ${_GCOV_FOLDER};
+
+    docker run --rm -i -t -v ${_GCOV_FOLDER}:/usr/src/php/lcov_html herdphp/phpqa:${_GCOV_VERSION} make lcov;
     printf "${_GREEN}The coverage report were generated and is available at lcov_html/index.html \n"
     exit 0;
 }
