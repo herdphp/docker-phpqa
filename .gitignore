@@ -1,4 +1,5 @@
 .idea/*
 phpt/*
 !phpt/examples/*.phpt
+!phpt/gcov/.gitkeep
 *.phpt
