@@ -1,3 +1,7 @@
+# NOT MAINTANED ANYMORE
+
+The development of `docker-phpqa` was dropped in favor of [phptt](https://github.com/PHPTestFestBrasil/phptt) which is actively maintained. Thanks to everyone that contributed with this small tool. =)
+
 # docker-phpqa
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/7cb0229f36ca44fbac20b832a6b7f437)](https://www.codacy.com/app/herdphp/docker-phpqa?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=herdphp/docker-phpqa&amp;utm_campaign=Badge_Grade)
