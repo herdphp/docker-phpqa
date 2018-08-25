@@ -139,6 +139,15 @@ function singleTest()
         herdphp/phpqa:${_RUN_VERSION} \
         make test TESTS=/usr/src/phpt/${_RUN_FILENAME} \
         | sed -e "s/Build complete./Test build successfully./" -e "s/Don't forget to run 'make test'./=\)/";
+    
+    printf "${_NC}==================================================\n";
+    printf "${_NC}DIFF\n";
+    printf "${_NC}==================================================\n";
+    docker run --rm -i -t \
+        -v ${_RUN_FILE_DIR}/${_RUN_VERSION}/:/usr/src/phpt/ \
+        herdphp/phpqa:${_RUN_VERSION} \
+        cat /usr/src/phpt/${_RUN_FILENAME//phpt/diff};
+    printf "\n${_NC}==================================================";
 }
 
 function executeRun()
